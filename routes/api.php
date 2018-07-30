@@ -19,12 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('auth/login', 'UserController@login');
 
 Route::group(['middleware' => 'jwt.auth'], function () {
-    Route::get('user', 'UserController@getAuthUser');
-    Route::post('photoupload', 'UploadfileController@uploadfile');
-    Route::post('photouploadaccesorio', 'UploadfileController@uploadfile2');
-    Route::post('photouploadpedigree', 'UploadfileController@uploadfile3');
-    Route::post('fotochat', 'UploadfileController@fotochat');
-    Route::post('fotousuario', 'UploadfileController@fotousuario');
+    Route::post('producto/crear', 'ProductoController@crear');
     
 });
 Route::post('auth/register', 'UserController@register');
