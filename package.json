@@ -17,5 +17,10 @@
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "vue": "^2.1.10"
+  },
+  "dependencies": {
+    "@angular/animations": "^6.1.0",
+    "@angular/cdk": "^6.4.1",
+    "@angular/material": "^6.4.1"
   }
 }

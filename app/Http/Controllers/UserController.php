@@ -18,12 +18,18 @@ class UserController extends Controller
         $this->user = $user;
     }
     public function register(Request $request){
-        $user = $this->user->create([
-          'name' => $request->get('name'),
-          'email' => $request->get('email'),
-          'password' => bcrypt($request->get('password'))
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
         ]);
-        return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+
+        $user = $this->user->create([
+          'name' => $request->name,
+          'email' => $request->email,
+          'password' => bcrypt($request->password)
+        ]);
+        return $this->login($request);
     }
     
     public function login(Request $request){
@@ -36,7 +42,9 @@ class UserController extends Controller
         } catch (JWTAuthException $e) {
             return response()->json(['failed_to_create_token'], 500);
         }
-        return response()->json(compact('token'));
+        $datos['token']=$token;
+        $datos['user']=JWTAuth::toUser($token);
+        return response($datos,200);
     }
     public function getAuthUser(Request $request){
 
