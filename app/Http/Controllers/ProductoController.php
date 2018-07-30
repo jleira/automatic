@@ -27,7 +27,7 @@ class ProductoController extends Controller
         ]);
 
         $user = JWTAuth::toUser(str_replace('Bearer ','',$request->header('Authorization')));        
-
+        $token=str_replace('Bearer ','',$request->header('Authorization'));
         DB::table('productos')->insert(
             ['usuario_id' => $user->id, 
             'nombre' => $request->nombre_aplicacion,
@@ -48,8 +48,40 @@ class ProductoController extends Controller
          $sendSmtpEmail["sender"]=['name'=>'vt','email'=>'projectmanager@gmail.com'];
          $sendSmtpEmail["to"]=[['name'=>$user->name,'email'=>$user->email]];
          $sendSmtpEmail["subject"]='Creacion de aplicacion ';
-         $sendSmtpEmail["htmlContent"]='<h1>Se envia el correo para el producto '.$request->nombre_aplicacion.'</h1>';
-          
+         $sendSmtpEmail["htmlContent"]='<h1>Confirmar variables para la aplicacion '.$request->nombre_aplicacion.'</h1>
+         <br>
+         <table style="width:100%">
+  <tr>
+    <th>key</th>
+    <th>valor</th> 
+  </tr>
+  <tr>
+    <td>Nombre aplicacicion</td>
+    <td>'.$request->nombre_aplicacion.'</td> 
+  </tr>
+  <tr>
+    <td>url woocomerce</td>
+    <td>'.$request->url_woocomerce.'</td> 
+  </tr>
+
+  <tr>
+  <td>Color principal</td>
+  <td>'.$request->color_principal.'</td> 
+</tr>
+
+<tr>
+<td>Color secundario</td>
+<td>'.$request->color_secundario.'</td> 
+</tr>
+<tr>
+<td>Comentario</td>
+<td>'.$request->color_comentario.'</td> 
+</tr>
+</table>
+<br>
+
+<br>
+<a href="http://167.114.185.216/automatic/public/api/productos/confirmar/'.$id_p.'/'.$token.'">Aceptar</a>';
         try {
             $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
             return response()->json(['success' => true]);
