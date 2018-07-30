@@ -87,9 +87,11 @@ class ProductoController extends Controller
 <a href="http://167.114.185.216/automatic/public/api/productos/confirmar/'.$id_p.'/'.$token.'">Aceptar</a>';
         try {
             $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
-            return response(200)->json(['success' => true]);
+            
+            return response()->json(['success' => true]);
         } catch (Exception $e) {
-            return response(500)->json(['success' => false]);
+
+            return response()->json(['success' => false]);
         }
         
 
