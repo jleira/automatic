@@ -36,7 +36,9 @@ class ProductoController extends Controller
             'color_secundario'=>$request->color_secundario,
             'estado'=>1]//esto 1 no aprobado
         );
-        $id_p=DB::table('productos')->max('id')->where('usuario_id',$user->id);
+        
+        $id_p=DB::table('productos')->max('id');
+
         $config = Sendinblue::getConfiguration();
         $cliente = new Client();
         $apiInstance = new \SendinBlue\Client\Api\SMTPApi(
